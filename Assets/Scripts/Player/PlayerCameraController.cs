@@ -4,12 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerCameraController : MonoBehaviour
 {
     [Header("Transforms")]
-    [Tooltip("“рансформ, который наклон€етс€ по вертикали (обычно Camera). " +
-             "≈сли пусто Ч будет использован текущий Transform.")]
     [SerializeField] private Transform pitchTransform;
 
     [Header("Input")]
-    [Tooltip("—сылка на InputAction (Vector2) дл€ обзора, например 'Player/Look'.")]
     [SerializeField] private InputActionReference lookAction;
 
     [Header("Sensitivity")]
@@ -93,19 +90,38 @@ public class PlayerCameraController : MonoBehaviour
         ApplyRotation();
     }
 
+    public void LookAt(Vector3 targetPosition)
+    {
+        Vector3 direction = targetPosition - transform.position;
+        if (direction.sqrMagnitude < Mathf.Epsilon)
+            return;
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
+        Vector3 euler = lookRotation.eulerAngles;
+
+        _yaw = euler.y;
+        _pitch = NormalizeAngle(euler.x);
+        _pitch = Mathf.Clamp(_pitch, minVerticalAngle, maxVerticalAngle);
+
+        if (limitHorizontalAngle)
+        {
+            float angleOffset = NormalizeAngle(_yaw - _baseYaw);
+            angleOffset = Mathf.Clamp(angleOffset, minHorizontalAngle, maxHorizontalAngle);
+            _yaw = _baseYaw + angleOffset;
+        }
+
+        ApplyRotation();
+    }
+
     private void ApplyRotation()
     {
         if (_useSeparatePitchTransform)
         {
-            // ¬ариант с пивотом (рекомендуетс€):
-            // - yaw на объекте с контроллером (обычно "PlayerRig")
-            // - pitch на дочерней камере
             transform.localRotation = Quaternion.Euler(0f, _yaw, 0f);
             pitchTransform.localRotation = Quaternion.Euler(_pitch, 0f, 0f);
         }
         else
         {
-            // ¬ариант без пивота Ч всЄ на одном Transform
             transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0f);
         }
     }
