@@ -9391,6 +9391,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonLauncher
   _playerSpawn: {fileID: 1719163342}
+  _enemySpawn: {fileID: 881288943}
+  _enemyPrefabs:
+  - {fileID: 5602132566544789495, guid: 19bee1e923edaf248a09a36878147610, type: 3}
+  - {fileID: 5602132566544789495, guid: 3b31c7964bf39bd4fad0b69fae65ff45, type: 3}
   _uiPanel: {fileID: 1296292569}
 --- !u!114 &1320849552
 MonoBehaviour:

@@ -20,5 +20,6 @@ public class RootSceneScope : LifetimeScope
         builder.RegisterComponentInHierarchy<IScenario>();
         builder.RegisterInstance(_playerInteractionController).AsSelf();
         builder.Register<BattleStateMachine>(Lifetime.Transient);
+        builder.Register<EnemyGenerator>(Lifetime.Transient);
     }
 }
