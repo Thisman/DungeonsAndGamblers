@@ -17,9 +17,8 @@
                     <ui:VisualElement class="inventory__cell" />
                     <ui:VisualElement class="inventory__cell" />
                     <ui:VisualElement class="inventory__cell" />
-                    <ui:VisualElement class="inventory__cell" />
                 </ui:VisualElement>
-                <ui:VisualElement class="inventory__row">
+                <ui:VisualElement class="inventory__row inventory__row-last">
                     <ui:VisualElement class="inventory__cell" />
                     <ui:VisualElement class="inventory__cell" />
                     <ui:VisualElement class="inventory__cell" />
