@@ -1,0 +1,134 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Style src="Shop.uss" />
+    <ui:VisualElement class="shop">
+        <ui:VisualElement class="shop__block shop__block--left">
+            <ui:VisualElement class="shop__tabs">
+                <ui:Button class="shop__tab shop__tab--active" text="Продать" />
+                <ui:Button class="shop__tab" text="Купить" />
+            </ui:VisualElement>
+            <ui:VisualElement class="shop__grid">
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+                <ui:VisualElement class="shop__row">
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                    <ui:VisualElement class="shop__cell" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="shop__block shop__block--right" />
+    </ui:VisualElement>
+</ui:UXML>

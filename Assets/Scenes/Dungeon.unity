@@ -392,6 +392,75 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 0, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &13900548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 13900549}
+  - component: {fileID: 13900550}
+  - component: {fileID: 13900551}
+  m_Layer: 5
+  m_Name: ShopUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &13900549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13900548}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.17677, y: 1.69541, z: -1.2037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1320849550}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &13900550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13900548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 14a59d6a59552ec4a9a9632a6596b96a, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 257fb0241c514eff9ef620719947a403, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &13900551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13900548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2dbba0b7ee14634a75ef4243dd434a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shop
+  _root: {fileID: 13900548}
 --- !u!1001 &30058120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9140,6 +9209,7 @@ Transform:
   - {fileID: 809676978}
   - {fileID: 1674736133}
   - {fileID: 1794209969}
+  - {fileID: 13900549}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1320849551
@@ -9167,6 +9237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f2276ba780daa45bf2afc229ea54e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryLauncher
+  _uiPanel: {fileID: 1794209970}
 --- !u!114 &1320849553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9179,6 +9250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5dbec2d3c52c247861bdf0dafe636f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopLauncher
+  _uiPanel: {fileID: 13900551}
 --- !u!1001 &1376597334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11640,7 +11712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1794209969
 Transform:
   m_ObjectHideFlags: 0

@@ -3,10 +3,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using VContainer;
 
 public class ShopLauncher : MonoBehaviour
 {
+    [SerializeField]
+    private UIPanel _uiPanel;
+
     [Inject]
     private readonly GameEventBus _gameEventBus;
 
@@ -25,6 +29,7 @@ public class ShopLauncher : MonoBehaviour
 
         var map = _actions.FindActionMap("Shop", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
+        _uiPanel.Hide();
     }
 
     private void OnDisable()
@@ -39,6 +44,7 @@ public class ShopLauncher : MonoBehaviour
     {
         _gameInputSystem.EnterShop();
         SubscribeToInputActions();
+        _uiPanel.Show();
     }
 
     private void SubscribeToInputActions()
@@ -53,6 +59,7 @@ public class ShopLauncher : MonoBehaviour
 
     private void HandleLeaveShop(InputAction.CallbackContext ctx)
     {
+        _uiPanel.Hide();
         _gameEventBus.Publish(new CloseShop());
     }
 }
