@@ -1,0 +1,36 @@
+.inventory {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory__block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 64px;
+}
+
+.inventory__grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory__row {
+    display: flex;
+    flex-direction: row;
+}
+
+.inventory__cell {
+    width: 64px;
+    height: 64px;
+    margin: 1px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #888;
+    background-color: #1c1c1c;
+}

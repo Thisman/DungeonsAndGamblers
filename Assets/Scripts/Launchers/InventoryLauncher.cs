@@ -7,6 +7,9 @@ using VContainer;
 
 public class InventoryLauncher: MonoBehaviour
 {
+    [SerializeField]
+    private UIPanel _uiPanel;
+
     [Inject]
     private readonly GameEventBus _gameEventBus;
 
@@ -25,6 +28,8 @@ public class InventoryLauncher: MonoBehaviour
 
         var map = _actions.FindActionMap("Inventory", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
+
+        _uiPanel.Hide();
     }
 
     private void OnDisable()
@@ -39,6 +44,7 @@ public class InventoryLauncher: MonoBehaviour
     {
         _gameInputSystem.EnterInventory();
         SubscribeToInputActions();
+        _uiPanel.Show();
     }
 
     private void SubscribeToInputActions()
@@ -54,5 +60,6 @@ public class InventoryLauncher: MonoBehaviour
     private void HandleLeaveInventory(InputAction.CallbackContext ctx)
     {
         _gameEventBus.Publish(new CloseInventory());
+        _uiPanel.Hide();
     }
 }
