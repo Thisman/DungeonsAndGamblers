@@ -51,16 +51,26 @@ public class GameInputSystem
         {
             case GameMode.Dungeon:
                 EnableOnly("Dungeon");
+                LockCursor(false);
                 break;
             case GameMode.Hub:
                 EnableOnly("Hub");
+                LockCursor(true);
                 break;
             case GameMode.Inventory:
                 EnableOnly("Inventory");
+                LockCursor(false);
                 break;
             case GameMode.Shop:
                 EnableOnly("Shop");
+                LockCursor(false);
                 break;
         }
+    }
+
+    private void LockCursor(bool locked)
+    {
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !locked;
     }
 }

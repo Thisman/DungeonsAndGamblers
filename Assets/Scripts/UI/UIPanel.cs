@@ -1,31 +1,102 @@
 using UnityEngine;
+using UnityEngine.UIElements;
+using VContainer;
 
 public abstract class UIPanel : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _root;
+    protected UIDocument _uiDocument;
 
-    protected virtual void Awake()
+    [Inject]
+    protected GameEventBus _sceneEventBusService;
+
+    protected bool _isAttached;
+
+    protected void OnEnable()
     {
-        if (_root == null)
+        TryRegisterLifecycleCallbacks();
+        SubscriveToGameEvents();
+    }
+
+    protected void OnDisable()
+    {
+        DetachFromPanel();
+        TryUnregisterLifecycleCallbacks();
+    }
+
+    protected void OnDestroy()
+    {
+        DetachFromPanel();
+        TryUnregisterLifecycleCallbacks();
+    }
+
+    virtual protected void AttachToPanel(UIDocument document)
+    {
+        if (_isAttached)
+            return;
+
+        RegisterUIElements();
+        SubcribeToUIEvents();
+        SubscriveToGameEvents();
+
+        _isAttached = true;
+        Debug.Log($"{GetType().Name} attached to panel.");
+    }
+
+    virtual protected void DetachFromPanel()
+    {
+        if (!_isAttached)
+            return;
+
+        UnsubscriveFromUIEvents();
+        UnsubscribeFromGameEvents();
+
+        _isAttached = false;
+    }
+
+    protected void TryRegisterLifecycleCallbacks()
+    {
+        if (_uiDocument.rootVisualElement is { } root)
         {
-            _root = gameObject;
+            root.RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
+            root.RegisterCallback<DetachFromPanelEvent>(HandleDetachFromPanel);
+
+            if (!_isAttached && root.panel != null)
+                AttachToPanel(_uiDocument);
         }
     }
 
-    public virtual void Show()
+    protected void TryUnregisterLifecycleCallbacks()
     {
-        if (_root != null)
+        if (_uiDocument.rootVisualElement is { } root)
         {
-            _root.SetActive(true);
+            root.UnregisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
+            root.UnregisterCallback<DetachFromPanelEvent>(HandleDetachFromPanel);
         }
     }
 
-    public virtual void Hide()
+    abstract public void Show();
+
+    abstract public void Hide();
+
+    abstract protected void RegisterUIElements();
+
+    abstract protected void SubcribeToUIEvents();
+
+    abstract protected void UnsubscriveFromUIEvents();
+
+    abstract protected void SubscriveToGameEvents();
+
+    abstract protected void UnsubscribeFromGameEvents();
+
+    protected void HandleAttachToPanel(AttachToPanelEvent _)
     {
-        if (_root != null)
-        {
-            _root.SetActive(false);
-        }
+        if (!_isAttached)
+            AttachToPanel(_uiDocument);
+    }
+
+    protected void HandleDetachFromPanel(DetachFromPanelEvent _)
+    {
+        DetachFromPanel();
     }
 }
