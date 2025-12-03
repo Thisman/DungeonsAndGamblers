@@ -11,6 +11,12 @@ public class DungeonLauncher: MonoBehaviour
     private Transform _playerSpawn;
 
     [SerializeField]
+    private Transform _enemySpawn;
+
+    [SerializeField]
+    private List<GameObject> _enemyPrefabs;
+
+    [SerializeField]
     private UIPanel _uiPanel;
 
     [Inject]
@@ -28,9 +34,12 @@ public class DungeonLauncher: MonoBehaviour
     [Inject]
     private readonly PlayerInteractionController _playerInteractionController;
 
+    private EnemyGenerator _enemyGenerator;
+
     private InputAction _leaveAction;
     private BattleStateMachine _battleStateMachine;
     private readonly List<IDisposable> _subsribtions = new();
+    private GameObject _currentEnemy;
 
     private void OnEnable()
     {
@@ -55,8 +64,15 @@ public class DungeonLauncher: MonoBehaviour
         _gameInputSystem.EnterDungeon();
         TeleportPlayerToDungeon();
         SubscribeToInputActions();
+        CreateEnemy();
         StartBattle();
         _uiPanel.Show();
+    }
+
+    private void CreateEnemy()
+    {
+        _enemyGenerator ??= _resolver.Resolve<EnemyGenerator>();
+        _currentEnemy = _enemyGenerator.CreateEnemy(_enemyPrefabs, _enemySpawn);
     }
 
     private void StartBattle()
@@ -86,9 +102,11 @@ public class DungeonLauncher: MonoBehaviour
 
     private void HandleLeaveDungeon(InputAction.CallbackContext ctx)
     {
+        Destroy(_currentEnemy);
         _battleStateMachine.Stop();
         _battleStateMachine = null;
-        _gameEventBus.Publish(new LeaveDungeon());
+        _currentEnemy = null;
         _uiPanel.Hide();
+        _gameEventBus.Publish(new LeaveDungeon());
     }
 }
