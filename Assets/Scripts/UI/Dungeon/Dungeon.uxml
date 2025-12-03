@@ -2,7 +2,10 @@
     <ui:Style src="Dungeon.uss" />
     <ui:VisualElement class="dungeon">
         <ui:VisualElement class="dungeon__block dungeon__block--left">
-            <ui:VisualElement class="dungeon__stats">
+            <ui:VisualElement name="player__info" class="dungeon__stats">
+                <ui:Label name="unit-description" class="unit__description" text="Описание юнита" />
+                <ui:Label name="unit-health" class="unit__description" text="Здоровье: 9999999" />
+                <ui:Label name="unit-damage" class="unit__description" text="Урон: 9999999" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="dungeon__content">
@@ -17,7 +20,12 @@
                 <ui:VisualElement class="dungeon__hp-fill" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="dungeon__block dungeon__block-right">
+        <ui:VisualElement class="dungeon__block dungeon__block--right">
+            <ui:VisualElement name="enemy__info" class="dungeon__stats">
+                <ui:Label name="unit-description" class="unit__description" text="Описание юнита" />
+                <ui:Label name="unit-health" class="unit__description" text="Здоровье: 9999999" />
+                <ui:Label name="unit-damage" class="unit__description" text="Урон: 9999999" />
+            </ui:VisualElement>
             <ui:Button class="dungeon__run-button" text="Сбежать" />
         </ui:VisualElement>
     </ui:VisualElement>

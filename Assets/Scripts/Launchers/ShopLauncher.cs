@@ -29,6 +29,8 @@ public class ShopLauncher : MonoBehaviour
 
         var map = _actions.FindActionMap("Shop", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
+
+        _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
     }
 

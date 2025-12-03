@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8682448624925227141}
   - component: {fileID: 1238554515886781872}
   - component: {fileID: 4409288382400107216}
+  - component: {fileID: -3585494118706834833}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -126,3 +127,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Billboard
   _camera: {fileID: 0}
+--- !u!114 &-3585494118706834833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602132566544789495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de1751b7d46df04cb108368baa44d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitModel
+  _health: 75
+  _damage: 20
+  _description: Skele.. ton

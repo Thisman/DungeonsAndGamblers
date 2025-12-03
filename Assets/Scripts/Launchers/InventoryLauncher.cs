@@ -29,6 +29,7 @@ public class InventoryLauncher: MonoBehaviour
         var map = _actions.FindActionMap("Inventory", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
 
+        _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
     }
 

@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2dbba0b7ee14634a75ef4243dd434a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shop
-  _root: {fileID: 13900548}
+  _uiDocument: {fileID: 13900550}
 --- !u!1001 &30058120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5496,6 +5496,7 @@ GameObject:
   - component: {fileID: 809676971}
   - component: {fileID: 809676979}
   - component: {fileID: 809676980}
+  - component: {fileID: 809676981}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5726,6 +5727,21 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &809676981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809676970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de1751b7d46df04cb108368baa44d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitModel
+  _health: 200
+  _damage: 35
+  _description: No name player
 --- !u!1001 &819809284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6338,7 +6354,7 @@ Transform:
   m_GameObject: {fileID: 881288942}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.405, y: -1.117, z: -1.231}
+  m_LocalPosition: {x: 3.405, y: -1.64, z: -1.231}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9064,7 +9080,7 @@ GameObject:
   - component: {fileID: 1296292570}
   - component: {fileID: 1296292569}
   m_Layer: 5
-  m_Name: Dungeon
+  m_Name: DungeonUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9082,7 +9098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56ec79da327125459c8ba3d9f1b2a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dungeon
-  _root: {fileID: 1296292568}
+  _uiDocument: {fileID: 1296292570}
 --- !u!114 &1296292570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11973,7 +11989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddaaecd682163274b8c15187a2570b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  _root: {fileID: 1794209968}
+  _uiDocument: {fileID: 1794209971}
 --- !u!114 &1794209971
 MonoBehaviour:
   m_ObjectHideFlags: 0
