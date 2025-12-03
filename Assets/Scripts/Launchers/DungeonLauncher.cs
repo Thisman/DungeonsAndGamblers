@@ -10,6 +10,9 @@ public class DungeonLauncher: MonoBehaviour
     [SerializeField]
     private Transform _playerSpawn;
 
+    [SerializeField]
+    private UIPanel _uiPanel;
+
     [Inject]
     private readonly IObjectResolver _resolver;
 
@@ -35,6 +38,8 @@ public class DungeonLauncher: MonoBehaviour
 
         var map = _actions.FindActionMap("Dungeon", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
+
+        _uiPanel.Hide();
     }
 
     private void OnDisable()
@@ -51,6 +56,7 @@ public class DungeonLauncher: MonoBehaviour
         TeleportPlayerToDungeon();
         SubscribeToInputActions();
         StartBattle();
+        _uiPanel.Show();
     }
 
     private void StartBattle()
@@ -83,5 +89,6 @@ public class DungeonLauncher: MonoBehaviour
         _battleStateMachine.Stop();
         _battleStateMachine = null;
         _gameEventBus.Publish(new LeaveDungeon());
+        _uiPanel.Hide();
     }
 }

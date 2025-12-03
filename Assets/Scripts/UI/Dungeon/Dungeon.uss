@@ -1,0 +1,77 @@
+.dungeon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 48px;
+    height: 100%;
+}
+
+.dungeon__block {
+    display: flex;
+    flex-direction: column;
+}
+
+.dungeon__stats {
+    width: 300px;
+    height: 600px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #888;
+    background-color: #1c1c1c;
+}
+
+.dungeon__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 64px;
+    margin-right: 64px;
+}
+
+.dungeon__slots {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.dungeon__cell {
+    margin: 16px;
+    width: 64px;
+    height: 64px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #888;
+    background-color: #1c1c1c;
+}
+
+.dungeon__hp-bar {
+    width: 400px;
+    height: 24px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #888;
+    background-color: #1c1c1c;
+    justify-content: center;
+    align-items: center;
+}
+
+.dungeon__hp-fill {
+    width: 100%;
+    height: 100%;
+    background-color: #b13232;
+    border-radius: 3px;
+}
+
+.dungeon__run-button {
+    width: 128px;
+    height: 64px;
+    margin-left: 48px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #888;
+    background-color: #1c1c1c;
+    color: #f2f2f2;
+}

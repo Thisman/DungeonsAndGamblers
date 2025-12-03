@@ -25,6 +25,10 @@
     flex-direction: row;
 }
 
+.inventory__row-last {
+    margin-top: 16px;
+}
+
 .inventory__cell {
     width: 64px;
     height: 64px;

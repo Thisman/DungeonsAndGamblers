@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Style src="Dungeon.uss" />
+    <ui:VisualElement class="dungeon">
+        <ui:VisualElement class="dungeon__block dungeon__block--left">
+            <ui:VisualElement class="dungeon__stats">
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="dungeon__content">
+            <ui:VisualElement class="dungeon__slots">
+                <ui:VisualElement class="dungeon__cell" />
+                <ui:VisualElement class="dungeon__cell" />
+                <ui:VisualElement class="dungeon__cell" />
+                <ui:VisualElement class="dungeon__cell" />
+                <ui:VisualElement class="dungeon__cell" />
+            </ui:VisualElement>
+            <ui:VisualElement class="dungeon__hp-bar">
+                <ui:VisualElement class="dungeon__hp-fill" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="dungeon__block dungeon__block-right">
+            <ui:Button class="dungeon__run-button" text="Сбежать" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
