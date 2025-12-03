@@ -105,6 +105,18 @@ public class DungeonLauncher: MonoBehaviour
         {
             cc.enabled = false;
             player.transform.position = _playerSpawn.transform.position;
+            if (_enemySpawn != null)
+            {
+                Vector3 lookTarget = _enemySpawn.position;
+                Vector3 playerLookTarget = new Vector3(lookTarget.x, player.transform.position.y, lookTarget.z);
+                player.transform.LookAt(playerLookTarget);
+
+                var cameraController = player.GetComponentInChildren<PlayerCameraController>();
+                if (cameraController != null)
+                {
+                    cameraController.LookAt(lookTarget);
+                }
+            }
             cc.enabled = true;
         }
     }
