@@ -59,7 +59,7 @@ public class InventoryLauncher: MonoBehaviour
 
     private void HandleLeaveInventory(InputAction.CallbackContext ctx)
     {
-        _gameEventBus.Publish(new CloseInventory());
         _uiPanel.Hide();
+        _gameEventBus.Publish(new CloseInventory());
     }
 }
