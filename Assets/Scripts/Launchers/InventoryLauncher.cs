@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,10 @@ using VContainer;
 public class InventoryLauncher: MonoBehaviour
 {
     [SerializeField]
-    private UIPanel _uiPanel;
+    private InventoryPanel _inventoryPanel;
+
+    [SerializeField]
+    private InventoryController _playerInventory;
 
     [Inject]
     private readonly GameEventBus _gameEventBus;
@@ -29,8 +31,8 @@ public class InventoryLauncher: MonoBehaviour
         var map = _actions.FindActionMap("Inventory", throwIfNotFound: true);
         _leaveAction = map.FindAction("Leave", throwIfNotFound: true);
 
-        _uiPanel.gameObject.SetActive(true);
-        _uiPanel.Hide();
+        _inventoryPanel.gameObject.SetActive(true);
+        _inventoryPanel.Hide();
     }
 
     private void OnDisable()
@@ -43,9 +45,16 @@ public class InventoryLauncher: MonoBehaviour
 
     private void HandleOpenInventory(OpenInventory evt)
     {
+        if (_playerInventory == null)
+        {
+            Debug.LogWarning("InventoryLauncher requires player inventory to be assigned.");
+            return;
+        }
+
         _gameInputSystem.EnterInventory();
         SubscribeToInputActions();
-        _uiPanel.Show();
+        _inventoryPanel.Render(_playerInventory, evt.SourceInventory);
+        _inventoryPanel.Show();
     }
 
     private void SubscribeToInputActions()
@@ -60,7 +69,7 @@ public class InventoryLauncher: MonoBehaviour
 
     private void HandleLeaveInventory(InputAction.CallbackContext ctx)
     {
-        _uiPanel.Hide();
+        _inventoryPanel.Hide();
         _gameEventBus.Publish(new CloseInventory());
     }
 }
