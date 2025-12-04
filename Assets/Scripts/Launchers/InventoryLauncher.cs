@@ -8,7 +8,7 @@ using VContainer;
 public class InventoryLauncher: MonoBehaviour
 {
     [SerializeField]
-    private UIPanel _uiPanel;
+    private InventoryPanel _uiPanel;
 
     [Inject]
     private readonly GameEventBus _gameEventBus;
@@ -19,7 +19,11 @@ public class InventoryLauncher: MonoBehaviour
     [Inject]
     private readonly InputActionAsset _actions;
 
+    [Inject]
+    private readonly PlayerInteractionController _playerInteractionController;
+
     private InputAction _leaveAction;
+    private PlayerInventoryController _playerInventoryController;
     private readonly List<IDisposable> _subscribtions = new();
 
     private void OnEnable()
@@ -31,6 +35,8 @@ public class InventoryLauncher: MonoBehaviour
 
         _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
+
+        _playerInventoryController = _playerInteractionController.GetComponent<PlayerInventoryController>();
     }
 
     private void OnDisable()
@@ -46,6 +52,7 @@ public class InventoryLauncher: MonoBehaviour
         _gameInputSystem.EnterInventory();
         SubscribeToInputActions();
         _uiPanel.Show();
+        _uiPanel.Render(_playerInventoryController.Inventory);
     }
 
     private void SubscribeToInputActions()

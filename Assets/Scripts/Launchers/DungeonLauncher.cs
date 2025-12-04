@@ -51,6 +51,8 @@ public class DungeonLauncher: MonoBehaviour
 
         _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
+
+        _currentPlayer = _playerInteractionController.GetComponent<UnitModel>();
     }
 
     private void OnDisable()
@@ -74,15 +76,9 @@ public class DungeonLauncher: MonoBehaviour
         _gameInputSystem.EnterDungeon();
         TeleportPlayerToDungeon();
         SubscribeToInputActions();
-        InitalizePlayer();
         CreateEnemy();
         StartBattle();
         _uiPanel.Show();
-    }
-
-    private void InitalizePlayer()
-    {
-        _currentPlayer = _playerInteractionController.GetComponent<UnitModel>();
     }
 
     private void CreateEnemy()
@@ -135,7 +131,6 @@ public class DungeonLauncher: MonoBehaviour
         _battleStateMachine.Stop();
         _battleStateMachine = null;
         _currentEnemy = null;
-        _currentPlayer = null;
         _uiPanel.Hide();
         _gameEventBus.Publish(new LeaveDungeon());
     }

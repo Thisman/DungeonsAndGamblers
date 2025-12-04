@@ -5496,6 +5496,7 @@ GameObject:
   - component: {fileID: 809676971}
   - component: {fileID: 809676979}
   - component: {fileID: 809676980}
+  - component: {fileID: 809676982}
   - component: {fileID: 809676981}
   m_Layer: 0
   m_Name: Player
@@ -5742,6 +5743,20 @@ MonoBehaviour:
   _health: 200
   _damage: 35
   _description: No name player
+--- !u!114 &809676982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809676970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0d5c65caba2e64fb98d589a2889c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryController
+  _defaultInventory:
+  - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
 --- !u!1001 &819809284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6354,7 +6369,7 @@ Transform:
   m_GameObject: {fileID: 881288942}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.405, y: -1.64, z: -1.231}
+  m_LocalPosition: {x: 3.405, y: -1.122, z: -1.231}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
