@@ -10,6 +10,7 @@ public class InventoryPanel : UIPanel
         public VisualElement Element { get; init; }
         public int Index { get; init; }
         public bool IsPlayerInventory { get; init; }
+        public EventCallback<PointerDownEvent> PointerDownCallback { get; set; }
     }
 
     private VisualElement _root;
@@ -67,7 +68,8 @@ public class InventoryPanel : UIPanel
     {
         foreach (var cell in _playerCells.Concat(_storedCells))
         {
-            cell.Element.RegisterCallback<PointerDownEvent, InventoryCell>(HandleCellPointerDown, cell);
+            cell.PointerDownCallback = evt => HandleCellPointerDown(evt, cell);
+            cell.Element.RegisterCallback(cell.PointerDownCallback);
         }
 
         _root.RegisterCallback<PointerMoveEvent>(HandlePointerMove);
@@ -78,7 +80,11 @@ public class InventoryPanel : UIPanel
     {
         foreach (var cell in _playerCells.Concat(_storedCells))
         {
-            cell.Element.UnregisterCallback<PointerDownEvent, InventoryCell>(HandleCellPointerDown, cell);
+            if (cell.PointerDownCallback != null)
+            {
+                cell.Element.UnregisterCallback(cell.PointerDownCallback);
+                cell.PointerDownCallback = null;
+            }
         }
 
         _root.UnregisterCallback<PointerMoveEvent>(HandlePointerMove);
@@ -125,7 +131,7 @@ public class InventoryPanel : UIPanel
         _draggedItem = item;
 
         _dragGhost.style.display = DisplayStyle.Flex;
-        _dragGhost.transform.position = new Vector3(evt.position.x, evt.position.y);
+        _dragGhost.style.translate = new Translate(evt.position.x, evt.position.y, 0);
         _dragGhost.SetEnabled(false);
         if (_dragGhost is Label label)
         {
@@ -141,7 +147,7 @@ public class InventoryPanel : UIPanel
         if (_draggedItem == null)
             return;
 
-        _dragGhost.transform.position = new Vector3(evt.position.x, evt.position.y);
+        _dragGhost.style.translate = new Translate(evt.position.x, evt.position.y, 0);
     }
 
     private void HandlePointerUp(PointerUpEvent evt)
