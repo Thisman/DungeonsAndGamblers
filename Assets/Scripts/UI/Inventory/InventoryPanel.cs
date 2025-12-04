@@ -34,6 +34,7 @@ public class InventoryPanel : UIPanel
     override public void Hide()
     {
         _root.style.display = DisplayStyle.None;
+        ClearItemInfo();
     }
 
     public void Render(List<ItemDefinition> playerItems, List<ItemDefinition> storedItems)
@@ -103,7 +104,7 @@ public class InventoryPanel : UIPanel
             int index = i;
             VisualElement slot = slots[i];
             _slotLookup[slot] = (type, index);
-            slot.RegisterCallback<ClickEvent>(evt => ShowItemInfo(type, index));
+            slot.RegisterCallback<PointerDownEvent>(evt => ShowItemInfo(type, index));
             slot.RegisterCallback<PointerDownEvent>(evt => StartDrag(type, index, evt));
         }
     }
