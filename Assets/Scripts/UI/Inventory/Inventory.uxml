@@ -26,7 +26,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="inventory__block inventory__block--right">
-            <ui:VisualElement name="stored__invetory" class="inventory__grid inventory__grid--right">
+            <ui:VisualElement name="stored__inventory" class="inventory__grid inventory__grid--right">
                 <ui:VisualElement class="inventory__row">
                     <ui:VisualElement class="inventory__cell" />
                     <ui:VisualElement class="inventory__cell" />
@@ -149,5 +149,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="dragged-item-view" class="inventory__drag" />
     </ui:VisualElement>
 </ui:UXML>

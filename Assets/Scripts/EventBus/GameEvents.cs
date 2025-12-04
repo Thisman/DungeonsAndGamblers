@@ -8,7 +8,7 @@ public record OpenShop();
 
 public record CloseShop();
 
-public record OpenInventory();
+public record OpenInventory(InventoryController Source);
 
 public record CloseInventory();
 

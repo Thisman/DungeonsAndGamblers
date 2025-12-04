@@ -2097,6 +2097,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f8a063c09323644891aeaea0db21b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryScenario
+--- !u!114 &418443554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418443547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0d5c65caba2e64fb98d589a2889c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryController
+  _defaultInventory:
+  - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
+  - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
 --- !u!4 &429455025 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7207782105493462376, guid: 566ca9ac4aee88e47906121eaa705eb1, type: 3}
@@ -4783,6 +4798,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6343160729194299311, guid: 73a39b99cf32dc347850aa44b49a56c3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 418443553}
+    - targetCorrespondingSourceObject: {fileID: 6343160729194299311, guid: 73a39b99cf32dc347850aa44b49a56c3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 418443554}
   m_SourcePrefab: {fileID: 100100000, guid: 73a39b99cf32dc347850aa44b49a56c3, type: 3}
 --- !u!1001 &724650054
 PrefabInstance:
@@ -5754,7 +5772,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0d5c65caba2e64fb98d589a2889c4c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryController
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _defaultInventory:
   - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
 --- !u!1001 &819809284
@@ -11537,6 +11555,7 @@ GameObject:
   - component: {fileID: 1674736134}
   - component: {fileID: 1674736136}
   - component: {fileID: 1674736135}
+  - component: {fileID: 1674736137}
   m_Layer: 6
   m_Name: Seller
   m_TagString: Untagged
@@ -11698,6 +11717,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineTarget
   outlineMaterial: {fileID: 2100000, guid: 949126b324a085141afe3707ff8f60da, type: 2}
+--- !u!114 &1674736137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674736128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0d5c65caba2e64fb98d589a2889c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryController
+  _defaultInventory:
+  - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
 --- !u!1001 &1694561042
 PrefabInstance:
   m_ObjectHideFlags: 0

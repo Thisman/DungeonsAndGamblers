@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VContainer;
 
-public class PlayerInventoryController: MonoBehaviour
+public class InventoryController : MonoBehaviour
 {
     [SerializeField]
     private List<ItemDefinition> _defaultInventory;
