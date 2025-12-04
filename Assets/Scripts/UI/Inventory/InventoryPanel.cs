@@ -23,7 +23,7 @@ public class InventoryPanel : UIPanel
     private InventoryController _playerInventory;
     private InventoryController _storedInventory;
     private InventoryCell _dragSource;
-    private InventoryItem _draggedItem;
+    private ItemDefinition _draggedItem;
 
     public void Render(InventoryController playerInventory, InventoryController storedInventory)
     {

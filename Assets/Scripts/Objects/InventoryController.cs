@@ -1,22 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class InventoryItem
-{
-    [SerializeField]
-    private string _displayName = "Item";
-
-    public string DisplayName => _displayName;
-}
-
 public class InventoryController : MonoBehaviour
 {
     [SerializeField]
     private int _capacity = 12;
 
     [SerializeField]
-    private List<InventoryItem> _items = new();
+    private List<ItemDefinition> _items = new();
+
+    [SerializeField]
+    private List<ItemDefinition> _defaultItems = new();
 
     public int Capacity => _capacity;
 
@@ -30,12 +24,12 @@ public class InventoryController : MonoBehaviour
         NormalizeInventory();
     }
 
-    public InventoryItem GetItem(int index)
+    public ItemDefinition GetItem(int index)
     {
         return IsValidIndex(index) ? _items[index] : null;
     }
 
-    public void SetItem(int index, InventoryItem item)
+    public void SetItem(int index, ItemDefinition item)
     {
         if (!IsValidIndex(index))
             return;
@@ -45,6 +39,7 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
+        ApplyDefaultItems();
         NormalizeInventory();
     }
 
@@ -55,14 +50,11 @@ public class InventoryController : MonoBehaviour
 
     private void NormalizeInventory()
     {
-        if (_capacity < 1)
-        {
-            _capacity = 1;
-        }
+        _capacity = Mathf.Max(_capacity, _items.Count, 1);
 
         if (_items == null)
         {
-            _items = new List<InventoryItem>();
+            _items = new List<ItemDefinition>();
         }
 
         if (_items.Count < _capacity)
@@ -72,14 +64,28 @@ public class InventoryController : MonoBehaviour
                 _items.Add(null);
             }
         }
-        else if (_items.Count > _capacity)
-        {
-            _items.RemoveRange(_capacity, _items.Count - _capacity);
-        }
     }
 
     private bool IsValidIndex(int index)
     {
         return index >= 0 && index < _capacity && _items != null && _items.Count > index;
+    }
+
+    private void ApplyDefaultItems()
+    {
+        if (_items == null)
+        {
+            _items = new List<ItemDefinition>();
+        }
+
+        if (_defaultItems == null || _defaultItems.Count == 0)
+            return;
+
+        _capacity = Mathf.Max(_capacity, _items.Count + _defaultItems.Count);
+
+        foreach (var item in _defaultItems)
+        {
+            _items.Add(item);
+        }
     }
 }
