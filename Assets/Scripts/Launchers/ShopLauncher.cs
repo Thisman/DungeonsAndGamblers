@@ -24,6 +24,7 @@ public class ShopLauncher : MonoBehaviour
 
     private InputAction _leaveAction;
     private InventoryController _playerStoredInventoryController;
+    private PlayerResourcesController _playerResourcesController;
     private readonly List<IDisposable> _subscribtions = new();
 
     private void OnEnable()
@@ -39,6 +40,7 @@ public class ShopLauncher : MonoBehaviour
         _playerStoredInventoryController = _playerInteractionController
             .GetComponents<InventoryController>()
             .First(i => i.Type == InventoryController.InventoryType.Stored);
+        _playerResourcesController = _playerInteractionController.GetComponent<PlayerResourcesController>();
     }
 
     private void OnDisable()
@@ -53,6 +55,7 @@ public class ShopLauncher : MonoBehaviour
     {
         _gameInputSystem.EnterShop();
         SubscribeToInputActions();
+        _uiPanel.SetPlayerResourcesController(_playerResourcesController);
         _uiPanel.Render(_playerStoredInventoryController.Inventory, evt.Seller.Inventory);
         _uiPanel.Show();
     }
