@@ -12,6 +12,7 @@ public class InventoryPanel : UIPanel
     private ItemDefinition _draggedItem;
     private InventoryType _draggedFrom;
     private int _draggedIndex;
+    private VisualElement _dragVisual;
     private readonly Dictionary<VisualElement, (InventoryType Type, int Index)> _slotLookup = new();
 
     private enum InventoryType
@@ -45,21 +46,27 @@ public class InventoryPanel : UIPanel
     override protected void RegisterUIElements()
     {
         _root = _uiDocument.rootVisualElement.Q<VisualElement>(className: "inventory");
+        _root.style.position = Position.Relative;
         _playerInventorySlots = _root.Q<VisualElement>("player__inventory")
             .Query<VisualElement>(className: "inventory__cell").ToList();
 
         _storedInventorySlots = _root.Q<VisualElement>("stored__inventory")
             .Query<VisualElement>(className: "inventory__cell").ToList();
 
+        _dragVisual = _root.Q<VisualElement>("dragged-item-view");
+        _dragVisual.pickingMode = PickingMode.Ignore;
+
         RegisterSlots(_playerInventorySlots, InventoryType.Player);
         RegisterSlots(_storedInventorySlots, InventoryType.Stored);
     }
 
     override protected void SubcribeToUIEvents() {
+        _root.RegisterCallback<PointerMoveEvent>(HandlePointerMoveEvent);
         _root.RegisterCallback<PointerUpEvent>(HandlePointerUpEvent);
     }
 
     override protected void UnsubscriveFromUIEvents() {
+        _root.UnregisterCallback<PointerMoveEvent>(HandlePointerMoveEvent);
         _root.UnregisterCallback<PointerUpEvent>(HandlePointerUpEvent);
     }
 
@@ -83,7 +90,7 @@ public class InventoryPanel : UIPanel
             int index = i;
             VisualElement slot = slots[i];
             _slotLookup[slot] = (type, index);
-            slot.RegisterCallback<PointerDownEvent>(_ => StartDrag(type, index));
+            slot.RegisterCallback<PointerDownEvent>(evt => StartDrag(type, index, evt));
         }
     }
 
@@ -97,17 +104,28 @@ public class InventoryPanel : UIPanel
         if (TryGetSlot(evt.target as VisualElement, out InventoryType targetType, out int targetIndex))
         {
             MoveDraggedItem(targetType, targetIndex);
-            Render(_playerInventory, _storedInventory);
         }
         else
         {
-            Render(_playerInventory, _storedInventory);
+            RestoreDraggedItemToOrigin();
         }
+
+        Render(_playerInventory, _storedInventory);
 
         ResetDrag();
     }
 
-    private void StartDrag(InventoryType from, int index)
+    private void HandlePointerMoveEvent(PointerMoveEvent evt)
+    {
+        if (_draggedItem == null)
+        {
+            return;
+        }
+
+        UpdateDragVisualPosition(evt.position);
+    }
+
+    private void StartDrag(InventoryType from, int index, PointerDownEvent evt)
     {
         List<ItemDefinition> inventory = GetInventory(from);
         if (inventory == null)
@@ -125,34 +143,50 @@ public class InventoryPanel : UIPanel
         _draggedItem = inventory[index];
         _draggedFrom = from;
         _draggedIndex = index;
+
+        inventory[index] = null;
+        Render(_playerInventory, _storedInventory);
+
+        EnsureDragVisual();
+        _dragVisual.style.backgroundImage = new StyleBackground(_draggedItem.Icon);
+        _dragVisual.style.display = DisplayStyle.Flex;
+        UpdateDragVisualPosition(evt.position);
+        _dragVisual.BringToFront();
+        evt.StopPropagation();
     }
 
     private void MoveDraggedItem(InventoryType targetType, int targetIndex)
     {
-        List<ItemDefinition> sourceInventory = GetInventory(_draggedFrom);
-        List<ItemDefinition> targetInventory = GetInventory(targetType);
+        var sourceInventory = GetInventory(_draggedFrom);
+        var targetInventory = GetInventory(targetType);
 
         if (sourceInventory == null || targetInventory == null)
-        {
             return;
-        }
-
-        if (_draggedFrom == targetType)
-        {
-            return;
-        }
 
         EnsureInventorySize(sourceInventory, GetSlotCount(_draggedFrom));
         EnsureInventorySize(targetInventory, GetSlotCount(targetType));
 
-        ItemDefinition displacedItem = targetInventory[targetIndex];
+        if (_draggedFrom == targetType)
+        {
+            if (targetIndex == _draggedIndex)
+            {
+                sourceInventory[_draggedIndex] = _draggedItem;
+                return;
+            }
+
+            var displacedItem = targetInventory[targetIndex];
+            targetInventory[targetIndex] = _draggedItem;
+            sourceInventory[_draggedIndex] = displacedItem;
+
+            return;
+        }
+
+        var displaced = targetInventory[targetIndex];
         targetInventory[targetIndex] = _draggedItem;
         sourceInventory[_draggedIndex] = null;
 
-        if (displacedItem != null)
-        {
-            PlaceItemInPlayerInventory(displacedItem);
-        }
+        if (displaced != null)
+            PlaceItemInPlayerInventory(displaced);
     }
 
     private List<ItemDefinition> GetInventory(InventoryType type)
@@ -234,9 +268,73 @@ public class InventoryPanel : UIPanel
         return false;
     }
 
+    private void RestoreDraggedItemToOrigin()
+    {
+        List<ItemDefinition> sourceInventory = GetInventory(_draggedFrom);
+        if (sourceInventory == null)
+        {
+            return;
+        }
+
+        EnsureInventorySize(sourceInventory, GetSlotCount(_draggedFrom));
+
+        if (sourceInventory[_draggedIndex] == null)
+        {
+            sourceInventory[_draggedIndex] = _draggedItem;
+        }
+    }
+
+    private void EnsureDragVisual()
+    {
+        if (_dragVisual != null)
+        {
+            return;
+        }
+
+        _dragVisual = new VisualElement();
+        _dragVisual.AddToClassList("inventory__drag");
+        _dragVisual.pickingMode = PickingMode.Ignore;
+
+        _root.Add(_dragVisual);
+    }
+
+    private void UpdateDragVisualPosition(Vector2 pointerPosition)
+    {
+        if (_dragVisual == null || _dragVisual.style.display == DisplayStyle.None)
+        {
+            return;
+        }
+
+        Vector2 localPosition = _root.WorldToLocal(pointerPosition);
+        float width = _dragVisual.resolvedStyle.width;
+        float height = _dragVisual.resolvedStyle.height;
+
+        if (Mathf.Approximately(width, 0f))
+        {
+            width = 64f;
+        }
+
+        if (Mathf.Approximately(height, 0f))
+        {
+            height = 64f;
+        }
+
+        float halfWidth = width * 0.5f;
+        float halfHeight = height * 0.5f;
+
+        _dragVisual.style.left = localPosition.x - halfWidth;
+        _dragVisual.style.top = localPosition.y - halfHeight;
+    }
+
     private void ResetDrag()
     {
         _draggedItem = null;
+        _draggedFrom = default;
         _draggedIndex = -1;
+
+        if (_dragVisual != null)
+        {
+            _dragVisual.style.display = DisplayStyle.None;
+        }
     }
 }

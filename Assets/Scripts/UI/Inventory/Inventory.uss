@@ -3,6 +3,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .inventory__block {
@@ -37,4 +38,14 @@
     border-radius: 4px;
     border-color: #888;
     background-color: #1c1c1c;
+}
+
+.inventory__drag {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+    opacity: 0.9;
 }
