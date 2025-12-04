@@ -149,6 +149,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="item-info" class="inventory__block item__info" />
         <ui:VisualElement name="dragged-item-view" class="inventory__drag" />
     </ui:VisualElement>
 </ui:UXML>
