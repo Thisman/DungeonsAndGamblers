@@ -26,7 +26,6 @@
                 <ui:Label name="unit-health" class="unit__description" text="Здоровье: 9999999" />
                 <ui:Label name="unit-damage" class="unit__description" text="Урон: 9999999" />
             </ui:VisualElement>
-            <ui:Button class="dungeon__run-button" text="Сбежать" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
