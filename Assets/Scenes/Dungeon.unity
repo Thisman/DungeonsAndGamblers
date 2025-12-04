@@ -5328,7 +5328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GamblingPanel
   _uiDocument: {fileID: 762490557}
   _spinDuration: 3
-  _visibleItems: 4
+  _visibleItems: 10
   _availableIcons:
   - {fileID: 21300000, guid: 4518f662790f5e447b27928410837c9a, type: 3}
   - {fileID: 21300000, guid: 567e9d94198fa434ebb3e4c449ba495d, type: 3}

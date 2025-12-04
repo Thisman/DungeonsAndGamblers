@@ -1,18 +1,19 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd">
     <ui:Style src="Gambling.uss" />
     <ui:VisualElement class="gambling">
-        <ui:VisualElement class="gambling__content">
-            <ui:VisualElement name="gambling__bets" class="gambling__bets">
-                <ui:Label text="Ставки" class="gambling__header" />
-                <ui:VisualElement name="gambling__bet-list" class="gambling__bet-list" />
-            </ui:VisualElement>
-            <ui:VisualElement class="gambling__details">
-                <ui:Label name="gambling__selected" class="gambling__selected" text="Ваша ставка" />
-                <ui:VisualElement class="gambling__slots" name="gambling__slots">
-                    <ui:VisualElement name="gambling__slot-1" class="gambling__slot" />
-                    <ui:VisualElement name="gambling__slot-2" class="gambling__slot" />
-                    <ui:VisualElement name="gambling__slot-3" class="gambling__slot" />
+            <ui:VisualElement class="gambling__content">
+                <ui:VisualElement name="gambling__bets" class="gambling__bets">
+                    <ui:Label text="Ставки" class="gambling__header" />
+                    <ui:VisualElement name="gambling__bet-list" class="gambling__bet-list" />
                 </ui:VisualElement>
+                <ui:VisualElement class="gambling__details">
+                    <ui:Label name="gambling__selected" class="gambling__selected" text="Ваша ставка" />
+                    <ui:Label name="gambling__description" class="gambling__description" text="" />
+                    <ui:VisualElement class="gambling__slots" name="gambling__slots">
+                        <ui:VisualElement name="gambling__slot-1" class="gambling__slot" />
+                        <ui:VisualElement name="gambling__slot-2" class="gambling__slot" />
+                        <ui:VisualElement name="gambling__slot-3" class="gambling__slot" />
+                    </ui:VisualElement>
                 <ui:Button name="gambling__roll-button" class="gambling__roll" text="Испытать удачу" />
             </ui:VisualElement>
         </ui:VisualElement>
