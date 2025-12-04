@@ -286,7 +286,7 @@
             "id": "d7013b33-bbc1-44ce-bc92-e97d640b2a2a",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Leave",
                     "type": "Button",
                     "id": "b004cfbc-a82a-4c77-8c26-a098459a8a5b",
                     "expectedControlType": "",
@@ -299,11 +299,11 @@
                 {
                     "name": "",
                     "id": "f64c52b2-a253-4632-8f91-b9361a26cafc",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Leave",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

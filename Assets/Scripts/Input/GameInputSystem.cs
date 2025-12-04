@@ -9,6 +9,7 @@ public enum GameMode
     Dungeon,
     Inventory,
     Shop,
+    Gambling,
 }
 
 public class GameInputSystem
@@ -42,6 +43,8 @@ public class GameInputSystem
 
     public void EnterShop() => SetMode(GameMode.Shop);
 
+    public void EnterGambling() => SetMode(GameMode.Gambling);
+
     private void SetMode(GameMode mode)
     {
         ClearBindingMask();
@@ -63,6 +66,10 @@ public class GameInputSystem
                 break;
             case GameMode.Shop:
                 EnableOnly("Shop");
+                LockCursor(false);
+                break;
+            case GameMode.Gambling:
+                EnableOnly("Gambling");
                 LockCursor(false);
                 break;
         }
