@@ -149,7 +149,14 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="item-info" class="inventory__block item__info" />
+        <ui:VisualElement name="item-info" class="inventory__block item__info">
+            <ui:VisualElement name="item-info__content" class="item__info-content">
+                <ui:VisualElement name="item-info__icon" class="item__icon" />
+                <ui:Label name="item-info__name" class="item__name" />
+                <ui:Label name="item-info__description" class="item__description" />
+                <ui:Label name="item-info__price" class="item__price" />
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:VisualElement name="dragged-item-view" class="inventory__drag" />
     </ui:VisualElement>
 </ui:UXML>

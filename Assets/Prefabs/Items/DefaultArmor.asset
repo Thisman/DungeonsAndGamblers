@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7454ae161e910e44a7685b666a96766, type: 3}
   m_Name: DefaultArmor
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  _name: "\u0411\u0435\u0441\u043B\u043F\u0430\u0442\u043D\u044B\u0435 \u0434\u043E\u0441\u043F\u0435\u0445\u0438"
+  _name: "\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B\u0435 \u0434\u043E\u0441\u043F\u0435\u0445\u0438"
   _description: "\u0410 \u0447\u0442\u043E \u0442\u044B \u0445\u043E\u0442\u0435\u043B?
     \u0417\u0430\u0442\u043E \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B\u0435!"
   _icon: {fileID: 21300000, guid: aaaf5c6c60feebb459eaf91a2a373d1d, type: 3}
