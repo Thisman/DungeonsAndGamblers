@@ -4,7 +4,7 @@ public record StartDungeon(GameObject Player);
 
 public record LeaveDungeon();
 
-public record OpenShop();
+public record OpenShop(InventoryController Seller);
 
 public record CloseShop();
 

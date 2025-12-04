@@ -1,15 +1,14 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 using VContainer;
 
 public class ShopLauncher : MonoBehaviour
 {
     [SerializeField]
-    private UIPanel _uiPanel;
+    private ShopPanel _uiPanel;
 
     [Inject]
     private readonly GameEventBus _gameEventBus;
@@ -20,7 +19,11 @@ public class ShopLauncher : MonoBehaviour
     [Inject]
     private readonly InputActionAsset _actions;
 
+    [Inject]
+    private readonly PlayerInteractionController _playerInteractionController;
+
     private InputAction _leaveAction;
+    private InventoryController _playerStoredInventoryController;
     private readonly List<IDisposable> _subscribtions = new();
 
     private void OnEnable()
@@ -32,6 +35,10 @@ public class ShopLauncher : MonoBehaviour
 
         _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
+
+        _playerStoredInventoryController = _playerInteractionController
+            .GetComponents<InventoryController>()
+            .First(i => i.Type == InventoryController.InventoryType.Stored);
     }
 
     private void OnDisable()
@@ -42,10 +49,11 @@ public class ShopLauncher : MonoBehaviour
         _leaveAction = null;
     }
 
-    private void HandleOpenShop(OpenShop evt)  
+    private void HandleOpenShop(OpenShop evt)
     {
         _gameInputSystem.EnterShop();
         SubscribeToInputActions();
+        _uiPanel.Render(_playerStoredInventoryController.Inventory, evt.Seller.Inventory);
         _uiPanel.Show();
     }
 
