@@ -26,4 +26,15 @@ public class UnitModel: MonoBehaviour
     public int Experience => _experience;
 
     public string Description => _description;
+
+    public void SetHealth(int health)
+    {
+        _health = Mathf.Max(1, health);
+        _currentHealth = Mathf.Clamp(_currentHealth, 1, _health);
+    }
+
+    public void SetDamage(int damage)
+    {
+        _damage = Mathf.Max(1, damage);
+    }
 }

@@ -24,6 +24,7 @@ public class HubLauncher: MonoBehaviour
         _subsribtions.Add(_gameEventBus.Subscribe<LeaveDungeon>(HandleStartHub));
         _subsribtions.Add(_gameEventBus.Subscribe<CloseInventory>(HandleStartHub));
         _subsribtions.Add(_gameEventBus.Subscribe<CloseShop>(HandleStartHub));
+        _subsribtions.Add(_gameEventBus.Subscribe<EndGambling>(HandleStartHub));
         _gameInputSystem.EnterHub();
     }
     private void OnDisable()
@@ -44,6 +45,11 @@ public class HubLauncher: MonoBehaviour
     }
 
     private void HandleStartHub(CloseShop evt)
+    {
+        _gameInputSystem.EnterHub();
+    }
+
+    private void HandleStartHub(EndGambling evt)
     {
         _gameInputSystem.EnterHub();
     }
