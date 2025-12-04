@@ -11730,7 +11730,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryType: 2
-  _defaultInventory: []
+  _defaultInventory:
+  - {fileID: 11400000, guid: 5ef1ad7c60d1bbc4097e261bd67cc9aa, type: 2}
 --- !u!1001 &1694561042
 PrefabInstance:
   m_ObjectHideFlags: 0

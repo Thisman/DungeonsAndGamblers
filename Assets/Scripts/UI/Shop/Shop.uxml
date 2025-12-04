@@ -3,10 +3,10 @@
     <ui:VisualElement class="shop">
         <ui:VisualElement class="shop__block shop__block--left">
             <ui:VisualElement class="shop__tabs">
-                <ui:Button class="shop__tab shop__tab--active" text="Продать" />
-                <ui:Button class="shop__tab" text="Купить" />
+                <ui:Button name="shop-tab__sell" class="shop__tab shop__tab--active" text="Продать" />
+                <ui:Button name="shop-tab__buy" class="shop__tab" text="Купить" />
             </ui:VisualElement>
-            <ui:VisualElement class="shop__grid">
+            <ui:VisualElement name="shop-grid" class="shop__grid">
                 <ui:VisualElement class="shop__row">
                     <ui:VisualElement class="shop__cell" />
                     <ui:VisualElement class="shop__cell" />
@@ -129,6 +129,16 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="shop__block shop__block--right" />
+        <ui:VisualElement class="shop__block shop__block--right">
+            <ui:VisualElement name="shop-item-info" class="inventory__block item__info">
+                <ui:VisualElement name="shop-item-info__content" class="item__info-content">
+                    <ui:VisualElement name="shop-item-info__icon" class="item__icon" />
+                    <ui:Label name="shop-item-info__name" class="item__name" />
+                    <ui:Label name="shop-item-info__description" class="item__description" />
+                    <ui:Label name="shop-item-info__price" class="item__price" />
+                </ui:VisualElement>
+                <ui:Button name="shop-item-info__action" class="item__action" text="" />
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

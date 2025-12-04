@@ -8,6 +8,9 @@ public class ShopScenario : MonoBehaviour, IScenario
 
     public void Run(GameObject target)
     {
-        _gameEventBus.Publish(new OpenShop());
+        if (TryGetComponent<InventoryController>(out var seller))
+        {
+            _gameEventBus.Publish(new OpenShop(seller));
+        }
     }
 }
