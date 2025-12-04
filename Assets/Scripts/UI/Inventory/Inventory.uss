@@ -46,7 +46,6 @@
     height: 64px;
     background-size: cover;
     background-position: center;
-    pointer-events: none;
     opacity: 0.9;
 }
 
@@ -57,4 +56,44 @@
     border-radius: 4px;
     border-color: #888;
     background-color: #1c1c1c;
+    padding: 24px;
+}
+
+.item__info-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+.item__icon {
+    width: 128px;
+    height: 128px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #888;
+}
+
+.item__name {
+    margin-top: 32px;
+    font-size: 24px;
+    color: #fff;
+    white-space: normal;
+    -unity-font-style: bold;
+}
+
+.item__description {
+    font-size: 16px;
+    white-space: normal;
+    color: #fff;
+    -unity-text-align: upper-left;
+}
+
+.item__price {
+    font-size: 18px;
+    color: #fff;
+    -unity-font-style: bold;
 }

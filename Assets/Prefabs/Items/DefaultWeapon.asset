@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7454ae161e910e44a7685b666a96766, type: 3}
   m_Name: DefaultWeapon
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  _name: "\u0411\u0435\u0441\u043B\u043F\u0430\u0442\u043D\u043E\u0435 \u043E\u0440\u0443\u0436\u0438\u0435"
+  _name: "\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E\u0435 \u043E\u0440\u0443\u0436\u0438\u0435"
   _description: "\u0410 \u0447\u0442\u043E \u0442\u044B \u0445\u043E\u0442\u0435\u043B?
     \u0417\u0430\u0442\u043E \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E!"
   _icon: {fileID: 21300000, guid: 3205edc2cee0cd14e8254e725767ac7f, type: 3}

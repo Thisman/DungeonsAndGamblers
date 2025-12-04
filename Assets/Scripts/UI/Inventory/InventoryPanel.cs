@@ -14,6 +14,11 @@ public class InventoryPanel : UIPanel
     private int _draggedIndex;
     private VisualElement _dragVisual;
     private readonly Dictionary<VisualElement, (InventoryType Type, int Index)> _slotLookup = new();
+    private VisualElement _itemInfo;
+    private VisualElement _itemIcon;
+    private Label _itemName;
+    private Label _itemDescription;
+    private Label _itemPrice;
 
     private enum InventoryType
     {
@@ -56,8 +61,16 @@ public class InventoryPanel : UIPanel
         _dragVisual = _root.Q<VisualElement>("dragged-item-view");
         _dragVisual.pickingMode = PickingMode.Ignore;
 
+        _itemInfo = _root.Q<VisualElement>("item-info");
+        _itemIcon = _itemInfo.Q<VisualElement>("item-info__icon");
+        _itemName = _itemInfo.Q<Label>("item-info__name");
+        _itemDescription = _itemInfo.Q<Label>("item-info__description");
+        _itemPrice = _itemInfo.Q<Label>("item-info__price");
+
         RegisterSlots(_playerInventorySlots, InventoryType.Player);
         RegisterSlots(_storedInventorySlots, InventoryType.Stored);
+
+        ClearItemInfo();
     }
 
     override protected void SubcribeToUIEvents() {
@@ -90,6 +103,7 @@ public class InventoryPanel : UIPanel
             int index = i;
             VisualElement slot = slots[i];
             _slotLookup[slot] = (type, index);
+            slot.RegisterCallback<ClickEvent>(evt => ShowItemInfo(type, index));
             slot.RegisterCallback<PointerDownEvent>(evt => StartDrag(type, index, evt));
         }
     }
@@ -123,6 +137,37 @@ public class InventoryPanel : UIPanel
         }
 
         UpdateDragVisualPosition(evt.position);
+    }
+
+    private void ShowItemInfo(InventoryType type, int index)
+    {
+        List<ItemDefinition> inventory = GetInventory(type);
+
+        if (inventory == null)
+        {
+            ClearItemInfo();
+            return;
+        }
+
+        EnsureInventorySize(inventory, GetSlotCount(type));
+
+        ItemDefinition item = inventory[index];
+        if (item == null)
+        {
+            ClearItemInfo();
+            return;
+        }
+
+        if (_itemIcon == null || _itemName == null || _itemDescription == null || _itemPrice == null)
+        {
+            return;
+        }
+
+        _itemIcon.style.backgroundImage = new StyleBackground(item.Icon);
+        _itemName.text = $"Название: {item.Name}";
+        _itemDescription.text = item.Description;
+        _itemPrice.text = $"Цена: {item.Price}";
+        _itemInfo.style.display = DisplayStyle.Flex;
     }
 
     private void StartDrag(InventoryType from, int index, PointerDownEvent evt)
@@ -336,5 +381,23 @@ public class InventoryPanel : UIPanel
         {
             _dragVisual.style.display = DisplayStyle.None;
         }
+    }
+
+    private void ClearItemInfo()
+    {
+        if (_itemInfo == null)
+        {
+            return;
+        }
+
+        if (_itemIcon == null || _itemName == null || _itemDescription == null || _itemPrice == null)
+        {
+            return;
+        }
+
+        _itemIcon.style.backgroundImage = new StyleBackground();
+        _itemName.text = string.Empty;
+        _itemDescription.text = string.Empty;
+        _itemPrice.text = string.Empty;
     }
 }
