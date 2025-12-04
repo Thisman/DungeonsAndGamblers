@@ -19,8 +19,10 @@ public class ShopPanel : UIPanel
 
     private List<ItemDefinition> _playerStoredInventory;
     private List<ItemDefinition> _shopInventory;
+    private PlayerResourcesController _playerResourcesController;
 
     private InventoryController.InventoryType _activeInventory = InventoryController.InventoryType.Stored;
+    private int _selectedItemIndex = -1;
 
     override public void Show()
     {
@@ -56,6 +58,11 @@ public class ShopPanel : UIPanel
         RenderActiveInventory();
     }
 
+    public void SetPlayerResourcesController(PlayerResourcesController playerResourcesController)
+    {
+        _playerResourcesController = playerResourcesController;
+    }
+
     override protected void RegisterUIElements()
     {
         _root = _uiDocument.rootVisualElement.Q<VisualElement>(className: "shop");
@@ -87,6 +94,11 @@ public class ShopPanel : UIPanel
         {
             _buyTab.clicked += HandleBuyTabClicked;
         }
+
+        if (_actionButton != null)
+        {
+            _actionButton.clicked += HandleActionButtonClicked;
+        }
     }
 
     override protected void UnsubscriveFromUIEvents()
@@ -99,6 +111,11 @@ public class ShopPanel : UIPanel
         if (_buyTab != null)
         {
             _buyTab.clicked -= HandleBuyTabClicked;
+        }
+
+        if (_actionButton != null)
+        {
+            _actionButton.clicked -= HandleActionButtonClicked;
         }
     }
 
@@ -205,6 +222,8 @@ public class ShopPanel : UIPanel
             return;
         }
 
+        _selectedItemIndex = index;
+
         if (_itemInfo == null || _itemIcon == null || _itemName == null || _itemDescription == null || _itemPrice == null || _actionButton == null)
         {
             return;
@@ -214,10 +233,23 @@ public class ShopPanel : UIPanel
         _itemName.text = $"Название: {item.Name}";
         _itemDescription.text = item.Description;
         _itemPrice.text = $"Цена: {item.Price}";
-        _actionButton.text = _activeInventory == InventoryController.InventoryType.Shop
+        _actionButton.text = GetActionButtonText(item);
+        _itemInfo.style.display = DisplayStyle.Flex;
+    }
+
+    private string GetActionButtonText(ItemDefinition item)
+    {
+        if (_activeInventory == InventoryController.InventoryType.Shop &&
+            _playerResourcesController != null &&
+            _playerResourcesController.ResoucesCount < item.Price)
+        {
+            int difference = item.Price - _playerResourcesController.ResoucesCount;
+            return $"Тебе не хватает {difference}";
+        }
+
+        return _activeInventory == InventoryController.InventoryType.Shop
             ? $"Купить {item.Price}"
             : $"Продать {item.Price}";
-        _itemInfo.style.display = DisplayStyle.Flex;
     }
 
     private List<ItemDefinition> GetInventory(InventoryController.InventoryType type)
@@ -260,5 +292,108 @@ public class ShopPanel : UIPanel
         _itemDescription.text = string.Empty;
         _itemPrice.text = string.Empty;
         _actionButton.text = "Нельзя купить или продать пустоту";
+        _selectedItemIndex = -1;
+    }
+
+    private void HandleActionButtonClicked()
+    {
+        if (_selectedItemIndex < 0)
+        {
+            return;
+        }
+
+        List<ItemDefinition> inventory = GetInventory(_activeInventory);
+        if (inventory == null)
+        {
+            return;
+        }
+
+        EnsureInventorySize(inventory, _slots.Count);
+
+        ItemDefinition item = inventory[_selectedItemIndex];
+        if (item == null)
+        {
+            return;
+        }
+
+        if (_activeInventory == InventoryController.InventoryType.Shop)
+        {
+            TryBuyItem(item);
+        }
+        else
+        {
+            SellItem(item);
+        }
+    }
+
+    private void TryBuyItem(ItemDefinition item)
+    {
+        if (_playerResourcesController == null)
+        {
+            return;
+        }
+
+        if (_playerResourcesController.ResoucesCount < item.Price)
+        {
+            _actionButton.text = GetActionButtonText(item);
+            return;
+        }
+
+        _playerResourcesController.DecreaseResources(item.Price);
+        RemoveItemFromInventory(_shopInventory, _selectedItemIndex);
+        AddItemToInventory(_playerStoredInventory, item);
+
+        RenderActiveInventory();
+        ClearItemInfo();
+    }
+
+    private void SellItem(ItemDefinition item)
+    {
+        if (_playerResourcesController == null)
+        {
+            return;
+        }
+
+        _playerResourcesController.IncreaseResources(item.Price);
+        RemoveItemFromInventory(_playerStoredInventory, _selectedItemIndex);
+        AddItemToInventory(_shopInventory, item);
+
+        RenderActiveInventory();
+        ClearItemInfo();
+    }
+
+    private void AddItemToInventory(List<ItemDefinition> inventory, ItemDefinition item)
+    {
+        if (inventory == null || item == null)
+        {
+            return;
+        }
+
+        EnsureInventorySize(inventory, _slots.Count);
+
+        int emptyIndex = inventory.FindIndex(i => i == null);
+        if (emptyIndex >= 0)
+        {
+            inventory[emptyIndex] = item;
+        }
+        else
+        {
+            inventory.Add(item);
+        }
+    }
+
+    private void RemoveItemFromInventory(List<ItemDefinition> inventory, int index)
+    {
+        if (inventory == null)
+        {
+            return;
+        }
+
+        EnsureInventorySize(inventory, _slots.Count);
+
+        if (index >= 0 && index < inventory.Count)
+        {
+            inventory[index] = null;
+        }
     }
 }
