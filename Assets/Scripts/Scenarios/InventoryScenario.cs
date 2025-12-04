@@ -8,6 +8,12 @@ public class InventoryScenario : MonoBehaviour, IScenario
 
     public void Run(GameObject target)
     {
-        _gameEventBus.Publish(new OpenInventory());
+        if (!TryGetComponent<InventoryController>(out var inventory))
+        {
+            Debug.LogWarning($"{nameof(InventoryScenario)} requires an {nameof(InventoryController)} on the same GameObject.");
+            return;
+        }
+
+        _gameEventBus.Publish(new OpenInventory(inventory));
     }
 }
