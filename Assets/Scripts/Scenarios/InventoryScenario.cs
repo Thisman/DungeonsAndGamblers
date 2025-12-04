@@ -8,9 +8,6 @@ public class InventoryScenario : MonoBehaviour, IScenario
 
     public void Run(GameObject target)
     {
-        if (TryGetComponent<InventoryController>(out var inventoryController))
-        {
-            _gameEventBus.Publish(new OpenInventory(inventoryController));
-        }
+        _gameEventBus.Publish(new OpenInventory());
     }
 }
