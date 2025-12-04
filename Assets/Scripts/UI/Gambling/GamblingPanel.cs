@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ public class GamblingPanel : UIPanel
     private VisualElement _root;
     private VisualElement _betList;
     private Label _selectedLabel;
+    private Label _descriptionLabel;
     private Button _rollButton;
     private List<VisualElement> _betItems = new();
     private List<VisualElement> _slots = new();
@@ -27,11 +29,14 @@ public class GamblingPanel : UIPanel
     private bool _isSpinning;
     private Coroutine _spinCoroutine;
 
+    public event Action SpinFinished;
+
     public void Render(List<IGamblingBet> bets)
     {
         _bets = bets ?? new List<IGamblingBet>();
         _selectedIndex = GetFirstUsableBetIndex();
         _startIndex = _selectedIndex >= 0 ? _selectedIndex : 0;
+        _startIndex = Mathf.Clamp(_startIndex, 0, Mathf.Max(0, _bets.Count - 1));
         UpdateSelectedLabel();
         RenderBetItems();
         UpdateRollButtonState();
@@ -62,12 +67,19 @@ public class GamblingPanel : UIPanel
         _root = _uiDocument.rootVisualElement.Q<VisualElement>(className: "gambling");
         _betList = _root?.Q<VisualElement>("gambling__bet-list");
         _selectedLabel = _root?.Q<Label>("gambling__selected");
+        _descriptionLabel = _root?.Q<Label>("gambling__description");
         _rollButton = _root?.Q<Button>("gambling__roll-button");
         _slots = _root?.Q<VisualElement>("gambling__slots")?.Query<VisualElement>(className: "gambling__slot").ToList() ?? new List<VisualElement>();
+
+        if (_descriptionLabel != null)
+        {
+            _descriptionLabel.enableRichText = true;
+        }
 
         CreateBetItems();
         RenderBetItems();
         UpdateSelectedLabel();
+        UpdateDescriptionLabel();
     }
 
     override protected void SubcribeToUIEvents()
@@ -138,7 +150,7 @@ public class GamblingPanel : UIPanel
 
     private void HandleWheel(WheelEvent evt)
     {
-        if (_bets.Count == 0)
+        if (_bets.Count == 0 || _bets.Count <= _visibleItems)
         {
             return;
         }
@@ -162,7 +174,12 @@ public class GamblingPanel : UIPanel
             return;
         }
 
-        int betIndex = WrapIndex(_startIndex + localIndex, _bets.Count);
+        bool useWrap = _bets.Count > _visibleItems;
+        int betIndex = useWrap ? WrapIndex(_startIndex + localIndex, _bets.Count) : _startIndex + localIndex;
+        if (betIndex < 0 || betIndex >= _bets.Count)
+        {
+            return;
+        }
         if (!_bets[betIndex].CanUse)
         {
             return;
@@ -171,6 +188,7 @@ public class GamblingPanel : UIPanel
         _selectedIndex = betIndex;
         UpdateSelectedLabel();
         RenderBetItems();
+        UpdateDescriptionLabel();
     }
 
     private void HandleRollClicked()
@@ -213,6 +231,7 @@ public class GamblingPanel : UIPanel
         _spinCoroutine = null;
         RenderBetItems();
         UpdateRollButtonState();
+        SpinFinished?.Invoke();
     }
 
     private void SetRandomIcons()
@@ -236,7 +255,7 @@ public class GamblingPanel : UIPanel
             return null;
         }
 
-        int index = Random.Range(0, _availableIcons.Count);
+        int index = UnityEngine.Random.Range(0, _availableIcons.Count);
         return _availableIcons[index];
     }
 
@@ -261,20 +280,22 @@ public class GamblingPanel : UIPanel
             return;
         }
 
+        bool useWrap = _bets.Count > _visibleItems;
+
         for (int i = 0; i < _betItems.Count; i++)
         {
             var item = _betItems[i];
-            int betIndex = WrapIndex(_startIndex + i, _bets.Count);
-            var bet = _bets[betIndex];
+            int betIndex = useWrap ? WrapIndex(_startIndex + i, _bets.Count) : _startIndex + i;
+            var bet = betIndex >= 0 && betIndex < _bets.Count ? _bets[betIndex] : null;
 
             if (item.Q<Label>() is { } label)
             {
-                label.text = bet.Name;
+                label.text = bet?.Name ?? string.Empty;
             }
 
-            bool isSelected = betIndex == _selectedIndex;
+            bool isSelected = bet != null && betIndex == _selectedIndex;
             item.EnableInClassList("gambling__bet-item--selected", isSelected);
-            item.EnableInClassList("gambling__bet-item--disabled", !bet.CanUse);
+            item.EnableInClassList("gambling__bet-item--disabled", bet == null || !bet.CanUse);
         }
     }
 
@@ -317,11 +338,34 @@ public class GamblingPanel : UIPanel
         {
             _selectedLabel.text = "Ваша ставка";
         }
+
+        UpdateDescriptionLabel();
+    }
+
+    private void UpdateDescriptionLabel()
+    {
+        if (_descriptionLabel == null)
+        {
+            return;
+        }
+
+        if (_selectedIndex >= 0 && _selectedIndex < _bets.Count)
+        {
+            _descriptionLabel.text = _bets[_selectedIndex].Description;
+        }
+        else
+        {
+            _descriptionLabel.text = string.Empty;
+        }
     }
 
     private void UpdateRollButtonState()
     {
-        bool canRoll = !_isSpinning && _selectedIndex >= 0 && _selectedIndex < _bets.Count && _availableIcons.Count > 0;
+        bool canRoll = !_isSpinning &&
+                       _selectedIndex >= 0 &&
+                       _selectedIndex < _bets.Count &&
+                       _availableIcons.Count > 0 &&
+                       _bets[_selectedIndex].CanUse;
         _rollButton?.SetEnabled(canRoll);
     }
 }
@@ -329,6 +373,8 @@ public class GamblingPanel : UIPanel
 public interface IGamblingBet
 {
     string Name { get; }
+
+    string Description { get; }
 
     bool CanUse { get; }
 

@@ -22,6 +22,8 @@ public class GamblingLauncher : MonoBehaviour
     [Inject]
     private readonly PlayerInteractionController _playerInteractionController;
 
+    private PlayerResourcesController _playerResourcesController;
+
     private InputAction _leaveAction;
     private InventoryController _playerInventoryController;
     private InventoryController _storedInventoryController;
@@ -43,6 +45,12 @@ public class GamblingLauncher : MonoBehaviour
         _playerInventoryController = inventories.First(i => i.Type == InventoryController.InventoryType.Player);
         _storedInventoryController = inventories.First(i => i.Type == InventoryController.InventoryType.Stored);
         _playerUnitModel = _playerInteractionController.GetComponent<UnitModel>();
+        _playerResourcesController = _playerInteractionController.GetComponent<PlayerResourcesController>();
+
+        if (_uiPanel != null)
+        {
+            _uiPanel.SpinFinished += HandleSpinFinished;
+        }
     }
 
     private void OnDisable()
@@ -51,6 +59,11 @@ public class GamblingLauncher : MonoBehaviour
         _subscriptions.ForEach(a => a.Dispose());
         _subscriptions.Clear();
         _leaveAction = null;
+
+        if (_uiPanel != null)
+        {
+            _uiPanel.SpinFinished -= HandleSpinFinished;
+        }
     }
 
     private void HandleStartGambling(StartGambling evt)
@@ -98,6 +111,11 @@ public class GamblingLauncher : MonoBehaviour
             bets.Add(new StatGamblingBet("Урон", () => _playerUnitModel.Damage, value => _playerUnitModel.SetDamage(value)));
         }
 
+        if (_playerResourcesController != null)
+        {
+            bets.Add(new ResourcesGamblingBet(_playerResourcesController));
+        }
+
         return bets;
     }
 
@@ -118,6 +136,11 @@ public class GamblingLauncher : MonoBehaviour
             yield return new ItemGamblingBet(item, controller.Inventory);
         }
     }
+
+    private void HandleSpinFinished()
+    {
+        _uiPanel.Render(BuildBets());
+    }
 }
 
 public class ItemGamblingBet : IGamblingBet
@@ -134,7 +157,10 @@ public class ItemGamblingBet : IGamblingBet
 
     public string Name => _item?.Name ?? string.Empty;
 
-    public bool CanUse => true;
+    public string Description =>
+        $"Ваша ставка {_item?.Name ?? "предмет"}, при победе у вас будет <color=#00ff00>{_item?.Name ?? "предмет"}</color>, при проигрыше <color=#ff0000>ничего</color>.";
+
+    public bool CanUse => !_itemRemoved;
 
     public void ApplyWin() { }
 
@@ -170,6 +196,18 @@ public class StatGamblingBet : IGamblingBet
 
     public string Name => _name;
 
+    public string Description
+    {
+        get
+        {
+            int current = _getter?.Invoke() ?? 0;
+            int winValue = Mathf.Max(1, Mathf.FloorToInt(current * 1.5f));
+            int loseValue = Mathf.Max(1, Mathf.FloorToInt(current / 2f));
+            return
+                $"Ваша ставка {current}, при победе у вас будет <color=#00ff00>{winValue}</color>, при проигрыше <color=#ff0000>{loseValue}</color>.";
+        }
+    }
+
     public bool CanUse => _getter?.Invoke() > 1;
 
     public void ApplyWin()
@@ -192,5 +230,53 @@ public class StatGamblingBet : IGamblingBet
 
         int newValue = Mathf.FloorToInt(_getter() / 2f);
         _setter(Mathf.Max(1, newValue));
+    }
+}
+
+public class ResourcesGamblingBet : IGamblingBet
+{
+    private readonly PlayerResourcesController _controller;
+
+    public ResourcesGamblingBet(PlayerResourcesController controller)
+    {
+        _controller = controller;
+    }
+
+    public string Name => "Ресурсы";
+
+    public string Description
+    {
+        get
+        {
+            int current = _controller?.ResoucesCount ?? 0;
+            int winValue = Mathf.FloorToInt(current * 1.5f);
+            int loseValue = Mathf.FloorToInt(current / 2f);
+            return
+                $"Ваша ставка {current}, при победе у вас будет <color=#00ff00>{winValue}</color>, при проигрыше <color=#ff0000>{loseValue}</color>.";
+        }
+    }
+
+    public bool CanUse => _controller?.ResoucesCount > 0;
+
+    public void ApplyWin()
+    {
+        if (_controller == null)
+        {
+            return;
+        }
+
+        int reward = Mathf.FloorToInt(_controller.ResoucesCount * 0.5f);
+        _controller.IncreaseResources(reward);
+    }
+
+    public void ApplyLose()
+    {
+        if (_controller == null)
+        {
+            return;
+        }
+
+        int loss = Mathf.FloorToInt(_controller.ResoucesCount / 2f);
+        _controller.DecreaseResources(loss);
     }
 }
