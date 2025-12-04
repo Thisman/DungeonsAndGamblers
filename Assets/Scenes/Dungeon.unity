@@ -5754,7 +5754,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0d5c65caba2e64fb98d589a2889c4c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryController
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _defaultInventory:
   - {fileID: 11400000, guid: 4e0f8b749210a0749895814ad29d100d, type: 2}
 --- !u!1001 &819809284

@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +22,7 @@ public class InventoryLauncher: MonoBehaviour
     private readonly PlayerInteractionController _playerInteractionController;
 
     private InputAction _leaveAction;
-    private PlayerInventoryController _playerInventoryController;
+    private InventoryController _playerInventoryController;
     private readonly List<IDisposable> _subscribtions = new();
 
     private void OnEnable()
@@ -36,7 +35,7 @@ public class InventoryLauncher: MonoBehaviour
         _uiPanel.gameObject.SetActive(true);
         _uiPanel.Hide();
 
-        _playerInventoryController = _playerInteractionController.GetComponent<PlayerInventoryController>();
+        _playerInventoryController = _playerInteractionController.GetComponent<InventoryController>();
     }
 
     private void OnDisable()
@@ -52,7 +51,7 @@ public class InventoryLauncher: MonoBehaviour
         _gameInputSystem.EnterInventory();
         SubscribeToInputActions();
         _uiPanel.Show();
-        _uiPanel.Render(_playerInventoryController.Inventory);
+        _uiPanel.Render(_playerInventoryController.Inventory, evt.Source.Inventory);
     }
 
     private void SubscribeToInputActions()
