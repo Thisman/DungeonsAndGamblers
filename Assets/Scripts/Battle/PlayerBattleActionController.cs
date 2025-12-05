@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBattleActionController : MonoBehaviour, IBattleActionController
 {
@@ -26,7 +27,9 @@ public class PlayerBattleActionController : MonoBehaviour, IBattleActionControll
             return;
         }
 
-        if (!Input.GetMouseButtonDown(0))
+        var mouse = Mouse.current;
+
+        if (mouse == null || !mouse.leftButton.wasPressedThisFrame)
         {
             return;
         }
@@ -39,7 +42,7 @@ public class PlayerBattleActionController : MonoBehaviour, IBattleActionControll
             return;
         }
 
-        var ray = cameraToUse.ScreenPointToRay(Input.mousePosition);
+        var ray = cameraToUse.ScreenPointToRay(mouse.position.ReadValue());
 
         if (Physics.Raycast(ray, out var hit) && hit.collider != null && hit.collider.CompareTag("Enemy"))
         {
