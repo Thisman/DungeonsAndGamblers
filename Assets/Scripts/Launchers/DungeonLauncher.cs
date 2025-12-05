@@ -90,7 +90,14 @@ public class DungeonLauncher: MonoBehaviour
 
     private void StartBattle()
     {
+        if (_currentPlayer == null || _currentEnemy == null)
+        {
+            Debug.LogWarning("Cannot start battle without player and enemy.");
+            return;
+        }
+
         _battleStateMachine = _resolver.Resolve<BattleStateMachine>();
+        _battleStateMachine.InitializeUnits(new [] { _currentPlayer, _currentEnemy });
         _battleStateMachine.Start();
     }
 
