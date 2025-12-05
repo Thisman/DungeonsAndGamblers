@@ -14,10 +14,23 @@ public class BattleStateMachine
     private BattleState _currentState;
     private StateMachine<BattleState, Trigger> _stateMachine;
 
+    private BattleQueue _battleQueue;
+    private UnitModel _currentUnit;
+
     private readonly List<IDisposable> _subscribtions = new();
+
+    public void InitializeUnits(IEnumerable<UnitModel> units)
+    {
+        _battleQueue = new BattleQueue(units);
+    }
 
     public void Start()
     {
+        if (_battleQueue == null)
+        {
+            throw new InvalidOperationException("Battle queue is not initialized.");
+        }
+
         _stateMachine = new StateMachine<BattleState, Trigger>(() => _currentState, state => _currentState = state);
 
         ConfigureTransitions();
@@ -36,6 +49,8 @@ public class BattleStateMachine
     {
         _stateMachine = null;
         _currentState = BattleState.None;
+        _currentUnit = null;
+        _battleQueue = null;
 
         _subscribtions.Clear();
         UnsubscribeFromSceneEvents();
@@ -171,6 +186,18 @@ public class BattleStateMachine
 
     private void EnterTurnInit()
     {
+        var queueResult = _battleQueue.GetNextUnit();
+
+        if (queueResult.IsRoundEnded)
+        {
+            Fire(Trigger.EndRound);
+            return;
+        }
+
+        _currentUnit = queueResult.Unit;
+
+        Debug.Log($"Round {queueResult.RoundNumber}, active unit: {_currentUnit.name}");
+
         Fire(Trigger.StartTurn);
     }
 
