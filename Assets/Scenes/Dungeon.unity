@@ -5703,6 +5703,7 @@ GameObject:
   - component: {fileID: 809676983}
   - component: {fileID: 809676981}
   - component: {fileID: 809676984}
+  - component: {fileID: 809676985}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5992,6 +5993,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerResourcesController
   _defaultResourcesCount: 0
+--- !u!114 &809676985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809676970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b55c9bea6db94db29c17c0c3a1714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBattleActionController
 --- !u!1001 &819809284
 PrefabInstance:
   m_ObjectHideFlags: 0

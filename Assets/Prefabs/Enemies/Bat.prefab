@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 1238554515886781872}
   - component: {fileID: -4304167568826696457}
   - component: {fileID: -2658752195195659996}
+  - component: {fileID: -1121877653670170096}
   m_Layer: 0
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,3 +143,15 @@ MonoBehaviour:
   _health: 50
   _damage: 15
   _description: it's a bat!
+--- !u!114 &-1121877653670170096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602132566544789495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7889de3804c64f4ca0bc15f6d0c565f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBattleActionController
