@@ -4,11 +4,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerBattleActionController : MonoBehaviour, IBattleActionController
 {
+    private UnitModel _unitModel;
+    private BattleDamageSystem _battleDamageSystem;
     private TaskCompletionSource<bool> _actionCompletionSource;
     private Camera _cachedCamera;
 
     private void Awake()
     {
+        _unitModel = GetComponent<UnitModel>();
+        _battleDamageSystem = new BattleDamageSystem();
         _cachedCamera = Camera.main;
     }
 
@@ -18,6 +22,11 @@ public class PlayerBattleActionController : MonoBehaviour, IBattleActionControll
         _actionCompletionSource = new TaskCompletionSource<bool>();
 
         await _actionCompletionSource.Task;
+
+        if (_unitModel != null && target != null)
+        {
+            await _battleDamageSystem.ResolveDamage(_unitModel, target);
+        }
     }
 
     private void Update()
