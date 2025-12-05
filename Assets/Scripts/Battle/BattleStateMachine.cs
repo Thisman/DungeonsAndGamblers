@@ -2,6 +2,7 @@
 using Stateless;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
@@ -14,6 +15,7 @@ public class BattleStateMachine
     private BattleState _currentState;
     private StateMachine<BattleState, Trigger> _stateMachine;
 
+    private List<UnitModel> _units;
     private BattleQueue _battleQueue;
     private UnitModel _currentUnit;
 
@@ -21,7 +23,11 @@ public class BattleStateMachine
 
     public void InitializeUnits(IEnumerable<UnitModel> units)
     {
-        _battleQueue = new BattleQueue(units);
+        var filteredUnits = units?.Where(unit => unit != null) ?? Enumerable.Empty<UnitModel>();
+
+        _units = filteredUnits.ToList();
+
+        _battleQueue = new BattleQueue(_units);
     }
 
     public void Start()
@@ -51,6 +57,7 @@ public class BattleStateMachine
         _currentState = BattleState.None;
         _currentUnit = null;
         _battleQueue = null;
+        _units = null;
 
         _subscribtions.Clear();
         UnsubscribeFromSceneEvents();
@@ -212,7 +219,24 @@ public class BattleStateMachine
 
     private async void EnterWaitForAction()
     {
-        await Task.Delay(3000);
+        var actionController = _currentUnit?.GetComponent<IBattleActionController>();
+
+        if (actionController == null)
+        {
+            Debug.LogWarning($"No battle action controller found for {_currentUnit?.name ?? "unknown unit"}.");
+            Fire(Trigger.EndTurn);
+            return;
+        }
+
+        try
+        {
+            var target = GetActionTarget();
+            await actionController.ResolveAction(target);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
 
         if (_currentState != BattleState.Finish && _currentState != BattleState.None)
             Fire(Trigger.EndTurn);
@@ -256,6 +280,24 @@ public class BattleStateMachine
     {
         _subscribtions.ForEach(subscribtion => subscribtion.Dispose());
         _subscribtions.Clear();
+    }
+
+    private UnitModel GetActionTarget()
+    {
+        if (_units == null || _currentUnit == null)
+        {
+            return null;
+        }
+
+        foreach (var unit in _units)
+        {
+            if (unit != null && unit != _currentUnit)
+            {
+                return unit;
+            }
+        }
+
+        return null;
     }
 
     private enum Trigger
